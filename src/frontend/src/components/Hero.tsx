@@ -276,8 +276,8 @@ export default function Hero() {
           <span>View Projects →</span>
         </button>
         <a
-          href="/resume.pdf"
-          download
+          href="/assets/Gijendar_Resume.pdf"
+          download="Nadar_Gijendar_Resume.pdf"
           aria-label="Download Resume PDF"
           className="btn-glass"
             style={{
@@ -302,7 +302,7 @@ export default function Hero() {
         >
           {/* GitHub */}
           <a
-            href="https://github.com"
+            href="https://github.com/gijendar"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
@@ -377,7 +377,7 @@ export default function Hero() {
 
           {/* LinkedIn */}
           <a
-            href="https://linkedin.com/in/nadar-gijendar"
+            href="https://www.linkedin.com/in/gijendar-nadar"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="LinkedIn"

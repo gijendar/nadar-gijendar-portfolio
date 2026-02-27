@@ -1,7 +1,3 @@
-import { useState } from "react";
-import { useActor } from "../hooks/useActor";
-import { toast } from "sonner";
-
 const CONTACT_INFO = [
   {
     label: "Email",
@@ -28,8 +24,8 @@ const CONTACT_INFO = [
   },
   {
     label: "LinkedIn",
-    value: "linkedin.com/in/nadar-gijendar",
-    href: "https://linkedin.com/in/nadar-gijendar",
+    value: "linkedin.com/in/gijendar-nadar",
+    href: "https://www.linkedin.com/in/gijendar-nadar",
     icon: (
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
@@ -38,6 +34,18 @@ const CONTACT_INFO = [
       </svg>
     ),
     color: "#0077b5",
+    external: true,
+  },
+  {
+    label: "GitHub",
+    value: "github.com/gijendar",
+    href: "https://github.com/gijendar",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+      </svg>
+    ),
+    color: "#e2e8f0",
     external: true,
   },
   {
@@ -56,36 +64,6 @@ const CONTACT_INFO = [
 ];
 
 export default function Contact() {
-  const { actor } = useActor();
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-    if (!actor) {
-      toast.error("Not connected. Please try again.");
-      return;
-    }
-    setSubmitting(true);
-    try {
-      await actor.submitContactMessage(form.name.trim(), form.email.trim(), form.message.trim());
-      toast.success("Message sent! I'll get back to you soon. 🚀");
-      setForm({ name: "", email: "", message: "" });
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
     <section
       id="contact"
@@ -101,242 +79,85 @@ export default function Contact() {
           </p>
         </div>
 
-        {/* Two-column layout */}
+        {/* Contact info grid */}
         <div
+          data-aos="fade-up"
+          data-aos-delay="100"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-            gap: "3rem",
+            gap: "1rem",
+            maxWidth: "860px",
           }}
         >
-          {/* Left: Contact info */}
-          <div data-aos="fade-right" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            <div
+          {CONTACT_INFO.map((info) => (
+            <a
+              key={info.label}
+              href={info.href}
+              target={info.external ? "_blank" : undefined}
+              rel={info.external ? "noopener noreferrer" : undefined}
               className="glass-card"
-              style={{ padding: "1.75rem", marginBottom: "0.5rem" }}
+              style={{
+                padding: "1.25rem 1.5rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "1rem",
+                textDecoration: "none",
+                color: "inherit",
+                transition: "all 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                const t = e.currentTarget;
+                t.style.borderColor = `${info.color}44`;
+                t.style.background = `${info.color}08`;
+              }}
+              onMouseLeave={(e) => {
+                const t = e.currentTarget;
+                t.style.borderColor = "var(--glass-border)";
+                t.style.background = "var(--glass-bg)";
+              }}
             >
-              <p
+              <div
                 style={{
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "#00d4ff",
-                  fontWeight: 600,
-                  marginBottom: "0.75rem",
-                  marginTop: 0,
-                }}
-              >
-                Contact Details
-              </p>
-              <p
-                style={{
-                  fontSize: "0.9rem",
-                  color: "rgba(255,255,255,0.55)",
-                  lineHeight: 1.7,
-                  margin: 0,
-                }}
-              >
-                Have a project in mind or want to discuss opportunities? I'm always open to new challenges.
-              </p>
-            </div>
-
-            {CONTACT_INFO.map((info) => (
-              <a
-                key={info.label}
-                href={info.href}
-                target={info.external ? "_blank" : undefined}
-                rel={info.external ? "noopener noreferrer" : undefined}
-                className="glass-card"
-                style={{
-                  padding: "1.25rem 1.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "1rem",
-                  textDecoration: "none",
-                  color: "inherit",
-                  transition: "all 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  const t = e.currentTarget;
-                  t.style.borderColor = `${info.color}44`;
-                  t.style.background = `${info.color}08`;
-                }}
-                onMouseLeave={(e) => {
-                  const t = e.currentTarget;
-                  t.style.borderColor = "var(--glass-border)";
-                  t.style.background = "var(--glass-bg)";
-                }}
-              >
-                <div
-                  style={{
-                    width: 42,
-                    height: 42,
-                    borderRadius: "12px",
-                    background: `${info.color}15`,
-                    border: `1px solid ${info.color}25`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: info.color,
-                    flexShrink: 0,
-                  }}
-                >
-                  {info.icon}
-                </div>
-                <div>
-                  <p
-                    style={{
-                      fontSize: "0.75rem",
-                      color: "rgba(255,255,255,0.4)",
-                      margin: "0 0 2px 0",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                    }}
-                  >
-                    {info.label}
-                  </p>
-                  <p
-                    style={{
-                      fontSize: "0.875rem",
-                      color: "rgba(255,255,255,0.8)",
-                      margin: 0,
-                      fontWeight: 500,
-                    }}
-                  >
-                    {info.value}
-                  </p>
-                </div>
-              </a>
-            ))}
-          </div>
-
-          {/* Right: Form */}
-          <div data-aos="fade-left">
-            <form
-              onSubmit={handleSubmit}
-              className="glass-card"
-              style={{ padding: "2.5rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}
-            >
-              <div>
-                <label
-                  htmlFor="contact-name"
-                  style={{
-                    display: "block",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    color: "rgba(255,255,255,0.6)",
-                    marginBottom: "0.5rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  Your Name
-                </label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  value={form.name}
-                  onChange={handleChange}
-                  placeholder="John Doe"
-                  className="form-input"
-                  required
-                  autoComplete="name"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="contact-email"
-                  style={{
-                    display: "block",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    color: "rgba(255,255,255,0.6)",
-                    marginBottom: "0.5rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  Email Address
-                </label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  value={form.email}
-                  onChange={handleChange}
-                  placeholder="john@example.com"
-                  className="form-input"
-                  required
-                  autoComplete="email"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="contact-message"
-                  style={{
-                    display: "block",
-                    fontSize: "0.8rem",
-                    fontWeight: 600,
-                    color: "rgba(255,255,255,0.6)",
-                    marginBottom: "0.5rem",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                  }}
-                >
-                  Message
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  value={form.message}
-                  onChange={handleChange}
-                  placeholder="Tell me about your project or opportunity..."
-                  className="form-input"
-                  rows={5}
-                  required
-                  style={{ resize: "vertical", minHeight: "120px" }}
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="btn-glow"
-                style={{
-                  padding: "0.9rem 2rem",
-                  borderRadius: "10px",
-                  fontSize: "0.95rem",
-                  fontFamily: "'Space Grotesk', sans-serif",
+                  width: 42,
+                  height: 42,
+                  borderRadius: "12px",
+                  background: `${info.color}15`,
+                  border: `1px solid ${info.color}25`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: "0.5rem",
-                  opacity: submitting ? 0.7 : 1,
-                  cursor: submitting ? "not-allowed" : "pointer",
-                  transition: "all 0.3s ease",
+                  color: info.color,
+                  flexShrink: 0,
                 }}
               >
-                {submitting ? (
-                  <>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true" style={{ animation: "spin 1s linear infinite" }}>
-                      <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
-                    </svg>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                      <path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/>
-                    </svg>
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
-          </div>
+                {info.icon}
+              </div>
+              <div>
+                <p
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "rgba(255,255,255,0.4)",
+                    margin: "0 0 2px 0",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.08em",
+                  }}
+                >
+                  {info.label}
+                </p>
+                <p
+                  style={{
+                    fontSize: "0.875rem",
+                    color: "rgba(255,255,255,0.8)",
+                    margin: 0,
+                    fontWeight: 500,
+                  }}
+                >
+                  {info.value}
+                </p>
+              </div>
+            </a>
+          ))}
         </div>
 
         {/* Footer */}
@@ -352,31 +173,13 @@ export default function Contact() {
             style={{
               fontSize: "0.875rem",
               color: "rgba(255,255,255,0.4)",
-              margin: "0 0 0.5rem 0",
+              margin: 0,
             }}
           >
             © 2026 Nadar Gijendar Alagendran | Built with passion & precision
           </p>
-          <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.25)", margin: 0 }}>
-            Built with ♥ using{" "}
-            <a
-              href="https://caffeine.ai"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "#00d4ff", textDecoration: "none" }}
-            >
-              caffeine.ai
-            </a>
-          </p>
         </footer>
       </div>
-
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </section>
   );
 }

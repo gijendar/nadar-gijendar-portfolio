@@ -152,17 +152,34 @@ export default function Projects() {
             {/* Card content */}
             <div style={{ padding: "2rem" }}>
               {/* Title */}
-              <h3
-                style={{
-                  fontFamily: "'Syne', sans-serif",
-                  fontWeight: 700,
-                  fontSize: "1.4rem",
-                  color: "rgba(255,255,255,0.95)",
-                  margin: "0 0 1rem 0",
-                }}
-              >
-                Lexpert – Legal Web Application
-              </h3>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1rem" }}>
+                <h3
+                  style={{
+                    fontFamily: "'Syne', sans-serif",
+                    fontWeight: 700,
+                    fontSize: "1.4rem",
+                    color: "rgba(255,255,255,0.95)",
+                    margin: 0,
+                  }}
+                >
+                  Lexpert – Legal Web Application
+                </h3>
+                <span
+                  style={{
+                    background: "rgba(124,58,237,0.15)",
+                    border: "1px solid rgba(124,58,237,0.35)",
+                    borderRadius: "999px",
+                    padding: "4px 12px",
+                    fontSize: "0.75rem",
+                    color: "#a78bfa",
+                    fontWeight: 600,
+                    letterSpacing: "0.05em",
+                    flexShrink: 0,
+                  }}
+                >
+                  Launched 2025
+                </span>
+              </div>
 
               {/* Tech tags */}
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginBottom: "1.5rem" }}>
@@ -241,7 +258,7 @@ export default function Projects() {
                   </svg>
                 </a>
                 <a
-                  href="https://github.com"
+                  href="https://github.com/gijendar/lexpert"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-glass"

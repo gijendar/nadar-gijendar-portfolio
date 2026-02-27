@@ -7,24 +7,30 @@ const EDUCATION = [
     badge: "Pursuing",
     badgeColor: "#22c55e",
     icon: "🎓",
+    academicYear: null,
+    passoutYear: null,
   },
   {
     degree: "Higher Secondary Certificate (HSC)",
     institution: "Al-Huda College",
     score: "60%",
-    period: "2022 – 2024",
+    period: "2022–23",
     badge: "Completed",
     badgeColor: "#00d4ff",
     icon: "📚",
+    academicYear: "2022–23",
+    passoutYear: "2023",
   },
   {
     degree: "Secondary School Certificate (SSC)",
     institution: "Vivekananda English School",
     score: "92.80%",
-    period: "2022",
+    period: "2020–21",
     badge: "Distinction",
     badgeColor: "#7c3aed",
     icon: "⭐",
+    academicYear: "2020–21",
+    passoutYear: "2021",
   },
 ];
 
@@ -139,14 +145,38 @@ export default function Education() {
                     >
                       {edu.badge}
                     </span>
-                    <span
-                      style={{
-                        fontSize: "0.8rem",
-                        color: "rgba(255,255,255,0.4)",
-                      }}
-                    >
-                      {edu.period}
-                    </span>
+                    {edu.academicYear && (
+                      <span
+                        style={{
+                          fontSize: "0.78rem",
+                          color: "rgba(255,255,255,0.45)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Academic Year: {edu.academicYear}
+                      </span>
+                    )}
+                    {edu.passoutYear && (
+                      <span
+                        style={{
+                          fontSize: "0.78rem",
+                          color: "rgba(255,255,255,0.45)",
+                          fontWeight: 500,
+                        }}
+                      >
+                        Passout Year: {edu.passoutYear}
+                      </span>
+                    )}
+                    {!edu.academicYear && (
+                      <span
+                        style={{
+                          fontSize: "0.8rem",
+                          color: "rgba(255,255,255,0.4)",
+                        }}
+                      >
+                        {edu.period}
+                      </span>
+                    )}
                     {edu.score !== "In Progress" && (
                       <span
                         className="gradient-text"
